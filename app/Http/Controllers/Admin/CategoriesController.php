@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -12,9 +13,11 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): mixed
     {
-        $category_list = $this->get_categories();
+        $category = app(Category::class);
+        $category_list = $category->get_categories();
+
         return view('admin/categories/index', [
             'category_list' => $category_list
         ]);

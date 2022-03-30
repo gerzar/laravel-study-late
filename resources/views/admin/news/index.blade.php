@@ -32,15 +32,11 @@
                     <td>{{$news->title}}</td>
                     <td>{{$news->author}}</td>
                     <td>{{$news->category_name}}</td>
-                    <td>{{$news->short_description}}</td>
+                    <td>{{ Str::words($news->short_description, 15)}}</td>
                 </tr>
             @empty
                 <tr>
-                    <td>Nothing here...</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="5">Nothing here...</td>
                 </tr>
             @endforelse
 

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreNewsRequest;
 use Illuminate\Http\Request;
+use App\Models\News;
 
 class NewsController extends Controller
 {
@@ -17,7 +18,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = $this->get_news();
+        $news = app(News::class);
+        $news = $news->get_news();
+
         return view('admin/news/index', [
             'news_list' => $news,
             'title' => 'Almost TIMES',

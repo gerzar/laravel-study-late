@@ -28,8 +28,8 @@
 {{--            {{dd($category_list)}}--}}
             @forelse($category_list as $category)
                 <tr>
-                    <td>{{$category->ID}}</td>
-                    <td>{{$category->category_name}}</td>
+                    <td>{{$category->id}}</td>
+                    <td>{{$category->title}}</td>
                 </tr>
             @empty
                 <tr>

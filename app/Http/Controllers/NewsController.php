@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $news = $this->get_news();
+        $news = app(News::class);
+        $news = $news->get_news_by([
+            ['news.status', '=', 'Published']
+        ]);
 
         return view('news.index', [
             'news_list' => $news,
@@ -21,7 +25,8 @@ class NewsController extends Controller
 
     public function single_news(int $id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $news = $this->get_news($id);
+        $news = app(News::class);
+        $news = $news->get_news_by_id($id);
 
         return view('news.single-news', [
             'single_news' => $news,
@@ -32,8 +37,15 @@ class NewsController extends Controller
 
     public function news_by_category(int $category_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $news = $this->get_news();
+        $news = app(News::class);
+        $news = $news->get_news_by(
+            [
+                ['categories.id', '=', $category_id],
+                ['news.status', '=', 'Published'],
+            ]
+        );
 
+        $result = [];
         foreach ($news as $news_item) {
             if ($news_item->category_id === $category_id) {
                 $result[] = $news_item;
