@@ -3,10 +3,10 @@
 @section('content-header')
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">News</h1>
+        <h1 class="h2">Users</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a type="button" class="btn btn-sm btn-outline-secondary" href="{{route('admin.news.create')}}">Add news</a>
+                <a type="button" class="btn btn-sm btn-outline-secondary" href="{{route('admin.users.create')}}">Add user</a>
             </div>
         </div>
     </div>
@@ -19,24 +19,22 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Title</th>
-                <th scope="col">Author</th>
-                <th scope="col">Category</th>
-                <th scope="col">Excerpt</th>
+                <th scope="col">Name</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Password</th>
             </tr>
             </thead>
             <tbody>
-            @forelse($news_list as $news)
+            @forelse($users as $user)
                 <tr>
-                    <td>{{$news->id}}</td>
-                    <td>{{$news->title}}</td>
-                    <td>{{$news->author_name}}</td>
-                    <td>{{$news->category_name}}</td>
-                    <td>{{ Str::words($news->short_description, 15)}}</td>
+                    <td>{{$user->id}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->password}}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">Nothing here...</td>
+                    <td colspan="4">Nothing here...</td>
                 </tr>
             @endforelse
 
@@ -45,3 +43,4 @@
     </div>
 
 @endsection
+

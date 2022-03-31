@@ -14,7 +14,7 @@
             <p class="post-meta">
                 Category: <a href="{{route('news.category.show', ['category_id' => $news->category_id])}}">{{$news->category_name}}</a>
                 <br>
-                Author: <b>{{$news->author}}</b>
+                Author: <b>{{$news->author_name}}</b>
             </p>
         </div>
         <!-- Divider-->

@@ -18,11 +18,11 @@
         <div class="form-group">
             <label for="status">Status</label>
             <select name="status" id="status" required>
+
                 <option value="published" @if(@old('status') === 'published') selected @endif>Published</option>
                 <option value="unpublished" @if(@old('status') === 'unpublished') selected @endif>Unpublished</option>
                 <option value="draft" @if(@old('status') === 'draft') selected @endif>Draft</option>
 
-                <option value="draft" <?php if(!empty($_POST['status'])){ echo "selected" ;} ?>>Draft</option>
             </select>
         </div>
         <br>
