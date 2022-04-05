@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreNewsRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\News;
 
@@ -18,13 +19,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = app(News::class);
-        $news = $news->get_news();
-
         return view('admin/news/index', [
-            'news_list' => $news,
-            'title' => 'Almost TIMES',
-            'subtitle' => 'The best news aggregator in the galaxy'
+            'news_list' => News::with(['user', 'category'])->paginate(20),
         ]);
     }
 
@@ -35,19 +31,26 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin/news/create');
+        return view('admin/news/create', [
+            'categories' => Category::all()
+        ]);
     }
 
 
     public function store(StoreNewsRequest $request)
     {
-//        dd($request->only('status', 'title', 'category', 'description', 'short_description'));
-//        dd($request->collect());
 
         $request->validated();
-//        $validated = $request->safe()->only(['name', 'description']);
 
-        return redirect()->route('admin.news.create')->with('message', 'The article has been inserted');
+        $data = $request->only(['title', 'status', 'description', 'short_description', 'category_id', 'author', 'image']);
+        $news = News::create($data);
+
+        if ($news){
+            return back()->with('message', 'The article has been inserted');
+        }
+
+        return back()->with('error', 'Something went wrong.');
+
     }
 
     /**
@@ -64,34 +67,52 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(News $news)
     {
-        //
+        return view('admin.news.edit', [
+            'news' => $news,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param StoreNewsRequest $request
+     * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreNewsRequest $request, News $news)
     {
-        //
+
+        $request->validated();
+
+        $news->fill($request->only(['title', 'status', 'description', 'short_description', 'category_id', 'author', 'image']));
+
+        if ($news->save()){
+            return back()->with('message', 'News has been updated');
+        }
+
+        return back()->with('error', 'Something went wrong');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        try {
+            $news->delete();
+            return response()->json(['status', 'ok']);
+        }catch(\Exception) {
+            return response()->json(['status' => 'error'], 400);
+        }
     }
 }

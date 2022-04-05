@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class StoreNewsRequest extends FormRequest
+class StoreCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,7 @@ class StoreNewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'short_description' => 'required|max:600',
-            'category_id' => 'required|integer',
+            'title' => 'required|max:20',
         ];
     }
 
@@ -41,14 +37,8 @@ class StoreNewsRequest extends FormRequest
     {
         return [
             'title.required' => 'A title is required',
-            'description.required' => 'A description is required',
-            'short_description.required' => 'An excerpt is required',
-            'category_id.required' => 'Category is required',
 
-            'title.max' => 'A title should be less then 255 symbols',
-            'short_description.max' => 'A excerpt should be less then 600 symbols',
-            'category_id.integer' => 'Category should be a number',
+            'title.max' => 'Category name should be less then 20 symbols',
         ];
     }
-
 }

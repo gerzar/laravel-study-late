@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -13,13 +14,10 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): mixed
+    public function index()
     {
-        $category = app(Category::class);
-        $category_list = $category->get_categories();
-
         return view('admin/categories/index', [
-            'category_list' => $category_list
+            'category_list' => Category::paginate(5),
         ]);
     }
 
@@ -36,12 +34,20 @@ class CategoriesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreCategoryRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        return redirect()->route('admin.categories.create')->with('message', 'The category has been inserted.');
+        $data = $request->only(['title']);
+        $category = Category::create($data);
+
+        if ($category){
+            return back()->with('message', 'The category has been inserted.');
+        }
+
+        return back()->with('error', 'Something went wrong.');
+
     }
 
     /**
@@ -61,31 +67,45 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', [
+           'category' => $category
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param StoreCategoryRequest $request
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCategoryRequest $request, Category $category)
     {
-        //
+        $category->fill($request->only(['title']));
+
+        if ($category->save()) {
+            return back()->with('message', 'Category was updated');
+        }
+
+        return back()->with('error', 'Something went wrong');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        try {
+            $category->delete();
+            return response()->json(['status', 'ok']);
+        }catch(\Exception) {
+            return response()->json(['status' => 'error'], 400);
+        }
     }
 }

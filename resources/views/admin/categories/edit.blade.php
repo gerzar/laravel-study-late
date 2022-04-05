@@ -3,7 +3,7 @@
 @section('content-header')
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Add category</h1>
+        <h1 class="h2">Edit category</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
 
@@ -13,11 +13,12 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{route('admin.categories.store')}}">
+    <form method="post" action="{{route('admin.categories.update', ['category' => $category])}}">
         @csrf
+        @method('put')
         <br>
         <div class="form-group">
-            <input type="text" class="form-control" id="title" placeholder="Category name" name="title" value="{{@old('title')}}" required>
+            <input type="text" class="form-control" id="title" placeholder="Category name" name="title" value="{{$category->title}}" required>
             <small id="title" class="form-text text-muted">Enter Category name</small>
         </div>
         <br>
