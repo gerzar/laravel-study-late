@@ -7,7 +7,7 @@ use \App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 use \App\Http\Controllers\Admin\UsersController as AdminUsersController;
-
+use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,8 +43,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::resource('news', AdminNewsController::class);
     Route::resource('users', AdminUsersController::class);
     Route::resource('categories', AdminCategoriesController::class);
+    Route::resource('feedback', AdminFeedbackController::class);
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 });
 
 
-Route::post('/feedback/create', [FeedbackController::class, 'create'])->name('feedback.create');
+Route::post('/feedback/new', [FeedbackController::class, 'new'])->name('feedback.new');

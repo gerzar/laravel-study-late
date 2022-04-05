@@ -3,23 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Feedback;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): string
+    public function index()
     {
-
-        return view('admin.users.index', [
-           'users' => User::all()
+        return view('admin.feedback.index', [
+            'feedbacks' => Feedback::paginate(20)
         ]);
-
     }
 
     /**
@@ -46,12 +44,14 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Feedback $feedback
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Feedback $feedback)
     {
-        //
+        return view('admin.feedback.show', [
+            'feedback' => $feedback
+        ]);
     }
 
     /**
@@ -80,11 +80,16 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Feedback $feedback
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Feedback $feedback)
     {
-        //
+        try {
+            $feedback->delete();
+            return response()->json(['status', 'ok']);
+        }catch(\Exception) {
+            return response()->json(['status' => 'error'], 400);
+        }
     }
 }

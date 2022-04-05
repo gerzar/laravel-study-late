@@ -25,6 +25,12 @@
                     Users
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.feedback.*')) active @endif" aria-current="page" href="{{route('admin.feedback.index')}}">
+                    <span data-feather="mail"></span>
+                    Messages
+                </a>
+            </li>
         </ul>
 
     </div>

@@ -9,24 +9,28 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @param News $news
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function index(News $news)
     {
-        $news = app(News::class);
-        $news = $news->get_news_by([
-            ['news.status', '=', 'Published']
-        ]);
-
         return view('news.index', [
-            'news_list' => $news,
+            'news_list' => $news->with(['user', 'category'])->paginate(20),
             'title' => 'Almost TIMES',
             'subtitle' => 'The best news aggregator in the galaxy'
         ]);
     }
 
-    public function single_news(int $id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @param int $id
+     * @param News $news
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function single_news(int $id, News $news)
     {
-        $news = app(News::class);
-        $news = $news->get_news_by_id($id);
+
+        $news = $news->with(['user', 'category'])->find($id);
 
         return view('news.single-news', [
             'single_news' => $news,
@@ -35,26 +39,20 @@ class NewsController extends Controller
         ]);
     }
 
-    public function news_by_category(int $category_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @param int $category_id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function news_by_category(int $category_id, News $news)
     {
-        $news = app(News::class);
-        $news = $news->get_news_by(
-            [
-                ['categories.id', '=', $category_id],
-                ['news.status', '=', 'Published'],
-            ]
-        );
 
-        $result = [];
-        foreach ($news as $news_item) {
-            if ($news_item->category_id === $category_id) {
-                $result[] = $news_item;
-            }
-        }
+        $news = $news->with(['user', 'category'])
+            ->where('category_id', '=', $category_id)
+            ->paginate(20);
 
         return view('news.index', [
-            'news_list' => $result,
-            'title' => $result[0]->category_name,
+            'news_list' => $news,
+            'title' => $news[0]->category->title,
             'subtitle' => 'Now you see the news this category only'
         ]);
 

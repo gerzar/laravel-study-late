@@ -4,16 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories';
+    protected $fillable = [
+        'title'
+    ];
 
-    public function get_categories()
+    //relations
+
+    public function news(): hasMany
     {
-        return \DB::table($this->table)->get();
+        return $this->hasMany(News::class, 'category_id', 'id');
     }
-
 }
