@@ -32,8 +32,8 @@
                     <td>{{$category->id}}</td>
                     <td>{{$category->title}}</td>
                     <td>
-                        <a href="{{route('admin.categories.edit', ['category' => $category])}}">Edit</a>
-                        <button class="btn btn-sm btn-outline-secondary" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.categories.destroy', $category)}}">Delete</button>
+                        <a class="btn btn-info" href="{{route('admin.categories.edit', ['category' => $category])}}">Edit</a>
+                        <button class="btn btn-danger" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.categories.destroy', $category)}}">Delete</button>
                     </td>
                 </tr>
             @empty

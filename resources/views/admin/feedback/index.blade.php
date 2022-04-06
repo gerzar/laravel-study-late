@@ -30,9 +30,9 @@
                     <td>{{$feedback->title}}</td>
                     <td>{{$feedback->email}}</td>
                     <td>
-                        <a href="{{route('admin.feedback.show',  $feedback)}}">View</a>
+                        <a class="btn btn-info" href="{{route('admin.feedback.show',  $feedback)}}">View</a>
 
-                        <button class="btn btn-sm btn-outline-secondary" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.feedback.destroy', $feedback)}}">Delete</button>
+                        <button class="btn btn-danger" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.feedback.destroy', $feedback)}}">Delete</button>
                     </td>
                 </tr>
             @empty

@@ -1,25 +1,27 @@
-function ajax(e)
-{
+
+function ajax(e) {
     let url = e.value;
     let csrf = e.dataset.csrf;
     e.setAttribute("disabled", "disabled");
 
-    fetch(url, {
-        method: "DELETE",
-        headers:{ "X-CSRF-TOKEN": csrf }
-    })
-    .then( (response) => {
-            if (response.statusText === 'OK')
-                deleteElements(e)
+    if (confirm("Are you sure? You are can't restore this.")) {
+        fetch(url, {
+            method: "DELETE",
+            headers: {"X-CSRF-TOKEN": csrf}
         })
-    .catch(() => {
-        console.log('Error')
-        e.removeAttribute("disabled")
-    });
+            .then((response) => {
+                if (response.statusText === 'OK')
+                    deleteElements(e)
+            })
+            .catch(() => {
+                console.log('Error')
+                e.removeAttribute("disabled")
+            });
+    }
+    e.removeAttribute("disabled")
 }
 
-function deleteElements(e)
-{
+function deleteElements(e) {
     e.parentNode.parentNode.remove();
 }
 

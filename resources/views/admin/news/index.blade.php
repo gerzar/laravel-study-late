@@ -33,10 +33,10 @@
                     <td>{{$news->title}}</td>
                     <td>{{$news->user->name}}</td>
                     <td>{{$news->category->title}}</td>
-                    <td>{{ Str::words($news->short_description, 15)}}</td>
+                    <td>{{ Str::words($news->short_description, 10)}}</td>
                     <td>
-                        <a href="{{route('admin.news.edit', ['news' => $news])}}">Edit</a>
-                        <button class="btn btn-sm btn-outline-secondary" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.news.destroy', $news)}}">Delete</button>
+                        <a class="btn btn-info" href="{{route('admin.news.edit', ['news' => $news])}}">Edit</a>
+                        <button class="btn btn-danger" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.news.destroy', $news)}}">Delete</button>
                     </td>
                 </tr>
             @empty

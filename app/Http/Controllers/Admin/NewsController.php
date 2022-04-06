@@ -7,8 +7,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreNewsRequest;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\News;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class NewsController extends Controller
 {
@@ -46,10 +48,10 @@ class NewsController extends Controller
         $news = News::create($data);
 
         if ($news){
-            return back()->with('message', 'The article has been inserted');
+            return back()->with('message',  __('messages.admin.news.create.success'));
         }
 
-        return back()->with('error', 'Something went wrong.');
+        return back()->with('error', __('messages.admin.commonError'));
 
     }
 
@@ -68,7 +70,7 @@ class NewsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param News $news
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(News $news)
     {
@@ -83,7 +85,7 @@ class NewsController extends Controller
      *
      * @param StoreNewsRequest $request
      * @param News $news
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreNewsRequest $request, News $news)
     {
@@ -93,10 +95,10 @@ class NewsController extends Controller
         $news->fill($request->only(['title', 'status', 'description', 'short_description', 'category_id', 'author', 'image']));
 
         if ($news->save()){
-            return back()->with('message', 'News has been updated');
+            return back()->with('message', __('messages.admin.news.update.success'));
         }
 
-        return back()->with('error', 'Something went wrong');
+        return back()->with('error', __('messages.admin.commonError'));
 
     }
 
@@ -104,9 +106,9 @@ class NewsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param News $news
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function destroy(News $news)
+    public function destroy(News $news): JsonResponse
     {
         try {
             $news->delete();

@@ -28,17 +28,5 @@ class StoreCategoryRequest extends FormRequest
         ];
     }
 
-    /**
-     * Получить сообщения об ошибках для определенных правил валидации.
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'title.required' => 'A title is required',
 
-            'title.max' => 'Category name should be less then 20 symbols',
-        ];
-    }
 }

@@ -12,7 +12,7 @@ class CategoriesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -24,7 +24,7 @@ class CategoriesController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -35,7 +35,7 @@ class CategoriesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreCategoryRequest $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(StoreCategoryRequest $request)
     {
@@ -43,10 +43,10 @@ class CategoriesController extends Controller
         $category = Category::create($data);
 
         if ($category){
-            return back()->with('message', 'The category has been inserted.');
+            return back()->with('message', __('messages.admin.categories.create.success'));
         }
 
-        return back()->with('error', 'Something went wrong.');
+        return back()->with('error', __('messages.admin.commonError'));
 
     }
 
@@ -65,7 +65,7 @@ class CategoriesController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Category $category)
     {
@@ -79,17 +79,17 @@ class CategoriesController extends Controller
      *
      * @param StoreCategoryRequest $request
      * @param Category $category
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StoreCategoryRequest $request, Category $category)
     {
         $category->fill($request->only(['title']));
 
         if ($category->save()) {
-            return back()->with('message', 'Category was updated');
+            return back()->with('message', __('messages.admin.categories.update.success'));
         }
 
-        return back()->with('error', 'Something went wrong');
+        return back()->with('error', __('messages.admin.commonError'));
 
     }
 
@@ -97,7 +97,7 @@ class CategoriesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Category $category
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Category $category)
     {
