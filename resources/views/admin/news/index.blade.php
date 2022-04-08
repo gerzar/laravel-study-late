@@ -23,6 +23,7 @@
                 <th scope="col">Author</th>
                 <th scope="col">Category</th>
                 <th scope="col">Excerpt</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -30,18 +31,27 @@
                 <tr>
                     <td>{{$news->id}}</td>
                     <td>{{$news->title}}</td>
-                    <td>{{$news->author}}</td>
-                    <td>{{$news->category_name}}</td>
-                    <td>{{ Str::words($news->short_description, 15)}}</td>
+                    <td>{{$news->user->name}}</td>
+                    <td>{{$news->category->title}}</td>
+                    <td>{{ Str::words($news->short_description, 10)}}</td>
+                    <td>
+                        <a class="btn btn-info" href="{{route('admin.news.edit', ['news' => $news])}}">Edit</a>
+                        <button class="btn btn-danger" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.news.destroy', $news)}}">Delete</button>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">Nothing here...</td>
+                    <td colspan=6>Nothing here...</td>
                 </tr>
             @endforelse
 
             </tbody>
         </table>
+        {!! $news_list->links() !!}
     </div>
 
 @endsection
+
+@push('js')
+    <script src="{{asset('js/ajax.js')}}"></script>
+@endpush

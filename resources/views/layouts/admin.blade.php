@@ -8,7 +8,7 @@
     <!-- Bootstrap core CSS -->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     <meta name="theme-color" content="#7952b3">
-
+    <script src="{{asset('js/feather-icons.js')}}"></script>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -36,7 +36,10 @@
     </button>
     <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="#">Sign out</a>
+            <form method="post" action="{{route('fortify.logout')}}">
+            @csrf
+            <button class="btn link-button" type="submit">Sign out</button>
+            </form>
         </div>
     </div>
 </header>
@@ -67,10 +70,8 @@
 </div>
 
 
-<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
-
+<script type="javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/feather.js')}}"></script>
 
 @stack('js') {{--сюда можно подключить необходимый js код либо любой другой код для конкрентного файла при помощи директивы @push @endpush--}}
 

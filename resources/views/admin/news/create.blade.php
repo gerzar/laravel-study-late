@@ -13,23 +13,23 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{route('admin.news.store')}}">
+    <form method="post" action="{{route('admin.news.store', ['author' => 1, 'image' => '123'])}}">
         @csrf
         <div class="form-group">
             <label for="status">Status</label>
             <select name="status" id="status" required>
+
                 <option value="published" @if(@old('status') === 'published') selected @endif>Published</option>
                 <option value="unpublished" @if(@old('status') === 'unpublished') selected @endif>Unpublished</option>
                 <option value="draft" @if(@old('status') === 'draft') selected @endif>Draft</option>
 
-                <option value="draft" <?php if(!empty($_POST['status'])){ echo "selected" ;} ?>>Draft</option>
             </select>
         </div>
         <br>
 
         <div class="form-group">
             <label for="title"></label>
-            <input type="text" class="form-control" id="title" placeholder="Title" name="title" input="{{@old('title')}}" required>
+            <input type="text" class="form-control" id="title" placeholder="Title" name="title" value="{{@old('title')}}" required>
             <small id="title" class="form-text text-muted">Enter a bright title for the article</small>
         </div>
         <br>
@@ -49,10 +49,13 @@
         <br>
 
         <div class="form-group">
-            <label for="category">Categories</label>
-            <select name="category" id="category" required>
-                <option value="1" @if(@old('status') === '1') selected @endif>Domestic</option>
-                <option value="2" @if(@old('status') === '2') selected @endif>Foreign</option>
+            <label for="category_id">Categories</label>
+            <select name="category_id" id="category_id">
+
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}" @if(@old('status') === $category->id) selected @endif>{{$category->title}}</option>
+                @endforeach
+
             </select>
         </div>
         <br>

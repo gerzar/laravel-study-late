@@ -1,14 +1,10 @@
-/* globals Chart:false, feather:false */
+/* globals Chart:false */
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-
 (function () {
     'use strict'
-
-    feather.replace({ 'aria-hidden': 'true' })
-
     // Graphs
     var ctx = document.getElementById('myChart')
     // eslint-disable-next-line no-unused-vars

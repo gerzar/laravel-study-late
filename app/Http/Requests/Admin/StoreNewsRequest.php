@@ -12,7 +12,7 @@ class StoreNewsRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -28,26 +28,10 @@ class StoreNewsRequest extends FormRequest
             'title' => 'required|max:255',
             'description' => 'required',
             'short_description' => 'required|max:600',
-            'category' => 'required|integer',
+            'category_id' => 'required|integer',
         ];
     }
 
-    /**
-     * Получить сообщения об ошибках для определенных правил валидации.
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'title.required' => 'A title is required',
-            'description.required' => 'A description is required',
-            'short_description.required' => 'An excerpt is required',
 
-            'title.max' => 'A title should be less then 255 symbols',
-            'short_description.max' => 'A excerpt should be less then 600 symbols',
-            'category.integer' => 'Category should be a number',
-        ];
-    }
 
 }
