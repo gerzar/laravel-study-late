@@ -36,7 +36,10 @@
     </button>
     <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="#">Sign out</a>
+            <form method="post" action="{{route('fortify.logout')}}">
+            @csrf
+            <button class="btn link-button" type="submit">Sign out</button>
+            </form>
         </div>
     </div>
 </header>

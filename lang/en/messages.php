@@ -18,6 +18,14 @@ return [
                 'success' => 'The article has been updated',
             ]
         ],
+        'users' => [
+            'create' => [
+                'success' => 'The user has been inserted',
+            ],
+            'update' => [
+                'success' => 'The user has been updated',
+            ]
+        ],
         'commonError' => [
             'error' => 'Something went wrong'
         ]

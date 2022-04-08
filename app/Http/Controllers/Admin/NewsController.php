@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreNewsRequest;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\News;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -85,9 +86,9 @@ class NewsController extends Controller
      *
      * @param StoreNewsRequest $request
      * @param News $news
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(StoreNewsRequest $request, News $news)
+    public function update(StoreNewsRequest $request, News $news): RedirectResponse
     {
 
         $request->validated();
