@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
+use App\Models\TelegramUserInfo;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -60,11 +61,15 @@ class UsersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', ['user' => $user]);
+        $user = $user->with('telegramUserInfo')->where('id', '=', $user->id)->get()[0];
+
+        return view('admin.users.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -76,8 +81,10 @@ class UsersController extends Controller
      */
     public function update(StoreUserRequest $request, User $user): RedirectResponse
     {
-        $request->validated();
-        $user = $user->fill($request->all());
+
+        $user = $user->fill($request->validated());
+
+        $user->telegramUserInfo()->updateOrInsert(['user_id' => $user->id], ['chat_id' => $request->chat_id]);
 
         if ($user->save())
             return back()->with('message', __('messages.admin.users.update.success'));

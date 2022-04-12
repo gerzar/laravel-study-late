@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{route('admin.news.store', ['author' => 1, 'image' => '123'])}}">
+    <form method="post" action="{{route('admin.news.store', ['image' => '123'])}}">
         @csrf
         <div class="form-group">
             <label for="status">Status</label>

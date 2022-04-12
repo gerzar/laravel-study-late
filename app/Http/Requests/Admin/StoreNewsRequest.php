@@ -29,6 +29,9 @@ class StoreNewsRequest extends FormRequest
             'description' => 'required',
             'short_description' => 'required|max:600',
             'category_id' => 'required|integer',
+            'status' => 'required',
+            'author' => 'integer',
+            'image' => 'string'
         ];
     }
 

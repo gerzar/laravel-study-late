@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FeedbackEvent;
 use App\Http\Requests\FeedbackRequest;
 use App\Models\Feedback;
 
@@ -13,6 +14,8 @@ class FeedbackController extends Controller
         $request->validated();
 
         $feedback->fill($request->only('title', 'email', 'message', 'username'));
+
+        event(new FeedbackEvent($feedback)); // вызываем событие фидбек
 
         if ($feedback->save()){
             return back()->with('message', 'Message has been send');

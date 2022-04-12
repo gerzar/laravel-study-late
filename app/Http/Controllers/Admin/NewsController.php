@@ -43,10 +43,10 @@ class NewsController extends Controller
     public function store(StoreNewsRequest $request)
     {
 
-        $request->validated();
+        $array = $request->validated();
+        $array['author'] = \Auth::user()->id;
 
-        $data = $request->only(['title', 'status', 'description', 'short_description', 'category_id', 'author', 'image']);
-        $news = News::create($data);
+        $news = News::create($array);
 
         if ($news){
             return back()->with('message',  __('messages.admin.news.create.success'));
@@ -91,9 +91,7 @@ class NewsController extends Controller
     public function update(StoreNewsRequest $request, News $news): RedirectResponse
     {
 
-        $request->validated();
-
-        $news->fill($request->only(['title', 'status', 'description', 'short_description', 'category_id', 'author', 'image']));
+        $news->fill($request->validated());
 
         if ($news->save()){
             return back()->with('message', __('messages.admin.news.update.success'));

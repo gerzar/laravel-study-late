@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -51,11 +52,16 @@ class User extends Authenticatable
 
 
     //relations
+    private mixed $id;
 
     public function news(): hasMany
     {
         return $this->hasMany(News::class, 'author', 'id');
     }
 
+    public function telegramUserInfo(): hasOne
+    {
+        return $this->hasOne(TelegramUserInfo::class, 'user_id', 'id');
+    }
 
 }

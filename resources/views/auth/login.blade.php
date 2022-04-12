@@ -10,7 +10,7 @@
                         <div class="col-12">
 
                             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Log in</p>
-
+                            <a href="{{route('auth.redirect', ['network' => 'github'])}}">GitHub</a>
                             <form class="mx-1 mx-md-4" method="post" action="{{route('login')}}">
                                 @csrf
                                 <div class="d-flex flex-row align-items-center mb-4">

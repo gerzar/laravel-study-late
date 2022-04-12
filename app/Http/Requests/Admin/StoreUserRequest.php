@@ -27,7 +27,8 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required|max:30',
             'email' => 'required|email',
-            'is_admin' => ['required', 'integer', 'min:0', 'max:1'],
+            'is_admin' => 'required|integer|min:0|max:1',
+            'chat_id' => 'integer'
         ];
     }
 }

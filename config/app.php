@@ -163,7 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Orchestra\Parser\XmlServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -176,7 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\FortifyServiceProvider::class
+        App\Providers\FortifyServiceProvider::class,
+
 
     ],
 
@@ -192,7 +193,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'XmlParserLib' => Orchestra\Parser\Xml\Facade::class,
     ])->toArray(),
 
 ];

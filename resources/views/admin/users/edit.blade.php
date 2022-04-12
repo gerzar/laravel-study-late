@@ -11,7 +11,6 @@
         </div>
     </div>
 @endsection
-
 @section('content')
     <form method="post" action="{{route('admin.users.update', $user)}}">
         @csrf
@@ -31,6 +30,12 @@
         </div>
         <br>
 
+        <br>
+        <div class="form-group">
+            <input type="chat_id" class="form-control" id="chat_id" placeholder="Telegram chat ID" name="chat_id" value="@if(isset($user->telegramUserInfo->chat_id)){{$user->telegramUserInfo->chat_id}}@endif">
+            <small id="chat_id" class="form-text text-muted">Enter Telegram chat</small>
+        </div>
+        <br>
 
         <br>
         <div class="form-group">
