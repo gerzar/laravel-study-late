@@ -5,5 +5,5 @@ namespace App\Contracts;
 interface Parser
 {
     public function setUrl(string $url): self;
-    public function getData(): array;
+    public function saveData(): void;
 }

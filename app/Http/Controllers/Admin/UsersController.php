@@ -20,7 +20,7 @@ class UsersController extends Controller
     {
 
         return view('admin.users.index', [
-            'users' => User::all()
+            'users' => User::all()->sortDesc()
         ]);
 
     }

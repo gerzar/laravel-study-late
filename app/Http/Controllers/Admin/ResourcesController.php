@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Feedback;
-use Arr;
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
-class FeedbackController extends Controller
+class ResourcesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return view
      */
     public function index()
     {
-        return view('admin.feedback.index', [
-            'feedbacks' => Feedback::paginate(20)->sortDesc()
-        ]);
+        return view('admin.resources.index', ['resources' => Resource::paginate(20)]);
     }
 
     /**
@@ -28,7 +25,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.resources.create');
     }
 
     /**
@@ -39,20 +36,25 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['site_url']);
+        $resource = Resource::create($data);
+
+        if ($resource){
+            return back()->with('message', 'Resource is added');
+        }
+
+        return back()->with('error', __('messages.admin.commonError'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Feedback $feedback
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Feedback $feedback)
+    public function show($id)
     {
-        return view('admin.feedback.show', [
-            'feedback' => $feedback
-        ]);
+        //
     }
 
     /**
@@ -81,13 +83,13 @@ class FeedbackController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Feedback $feedback
+     * @param Resource $resource
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Feedback $feedback)
+    public function destroy(Resource $resource)
     {
         try {
-            $feedback->delete();
+            $resource->delete();
             return response()->json(['status', 'ok']);
         }catch(\Exception) {
             return response()->json(['status' => 'error'], 400);

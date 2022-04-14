@@ -3,7 +3,7 @@
 @section('content-header')
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Add article</h1>
+        <h1 class="h2">Edit article</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
 
@@ -13,11 +13,10 @@
 @endsection
 
 @section('content')
-    <form method="post" action="{{route('admin.news.update', ['news' => $news])}}">
+    <form method="post" action="{{route('admin.news.update', ['news' => $news])}}" enctype="multipart/form-data">
         @csrf
         @method('put')
 
-        <input type="hidden" name="image" value="123">
         <input type="hidden" name="author" value="1">
 
         <div class="form-group">
@@ -41,15 +40,24 @@
 
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" name="description" id="description" rows="3" required>{!! $news->description !!}</textarea>
+            <textarea class="form-control" name="description" id="description" rows="3">{!! $news->description !!}</textarea>
             <small id="title" class="form-text text-muted">Enter actual text for the article</small>
         </div>
         <br>
 
         <div class="form-group">
             <label for="short_description">Excerpt</label>
-            <textarea class="form-control" name="short_description" id="short_description" rows="3" required>{!! $news->short_description !!}</textarea>
+            <textarea class="form-control" name="short_description" id="short_description" rows="3">{!! $news->short_description !!}</textarea>
             <small id="title" class="form-text text-muted">Enter short description what about your article</small>
+        </div>
+        <br>
+        <img src="{{ Helpers::correctImageUrl($news->image) }}" style="width:250px;"> &nbsp; <a href="javascript:;">[X]</a>
+        <div class="form-group">
+            <label for="image">Image</label>
+
+
+            <input type="file" class="form-control" id="image" name="image">
+            <small id="title" class="form-text text-muted">Upload image</small>
         </div>
         <br>
 
@@ -69,3 +77,17 @@
     </form>
 
 @endsection
+
+@push('js')
+
+    <script src="{{asset('js/ckeditor.js')}}"></script>
+
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+
+@endpush

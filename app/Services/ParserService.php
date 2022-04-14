@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\Parser;
+use App\Models\ParsedNews;
 use XmlParserLib;
 
 class ParserService implements Parser
@@ -21,16 +22,24 @@ class ParserService implements Parser
     }
 
     /**
-     * @return array
+     * @return void
      */
-    public function getData(): array
+    public function saveData(): void
     {
         $xml = XmlParserLib::load($this->url);
 
-        return $xml->parse([
+        $data = $xml->parse([
             'news' => [
                 'uses' => 'channel.item[title,category,link,pubDate,author,description]'
             ]
         ]);
+
+        foreach ($data as $items) {
+            foreach ($items as $item) {
+                ParsedNews::create($item);
+            }
+        }
+
     }
+
 }

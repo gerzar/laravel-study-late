@@ -7,11 +7,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreNewsRequest;
 use App\Models\Category;
+use App\Services\UploadService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Models\News;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class NewsController extends Controller
 {
@@ -22,8 +21,9 @@ class NewsController extends Controller
      */
     public function index()
     {
+
         return view('admin/news/index', [
-            'news_list' => News::with(['user', 'category'])->paginate(20),
+            'news_list' => News::with(['user', 'category'])->orderBy('id', 'desc')->paginate(20),
         ]);
     }
 
@@ -46,10 +46,15 @@ class NewsController extends Controller
         $array = $request->validated();
         $array['author'] = \Auth::user()->id;
 
+        if ($request->hasFile('image')) {
+            $uploadImageService = app(UploadService::class);
+            $array['image'] = $uploadImageService->uploadFile($request->file('image'), 'news');
+        }
+
         $news = News::create($array);
 
         if ($news){
-            return back()->with('message',  __('messages.admin.news.create.success'));
+            return redirect(route('admin.news.edit', $news))->with('message',  __('messages.admin.news.create.success'));
         }
 
         return back()->with('error', __('messages.admin.commonError'));
@@ -92,6 +97,12 @@ class NewsController extends Controller
     {
 
         $news->fill($request->validated());
+
+        if ($request->hasFile('image')) {
+            $uploadImageService = app(UploadService::class);
+            $news['image'] = $uploadImageService->uploadFile($request->file('image'), 'news');
+        }
+
 
         if ($news->save()){
             return back()->with('message', __('messages.admin.news.update.success'));

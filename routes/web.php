@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController
 use \App\Http\Controllers\Admin\UsersController as AdminUsersController;
 use \App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use \App\Http\Controllers\Admin\ParseController as AdminParseController;
+use \App\Http\Controllers\Admin\ResourcesController as AdminResourcesController;
 
 
 
@@ -54,6 +55,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     Route::resource('users', AdminUsersController::class);
     Route::resource('categories', AdminCategoriesController::class);
     Route::resource('feedback', AdminFeedbackController::class);
+    Route::resource('resources', AdminResourcesController::class);
+
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/parse', [AdminParseController::class, '__invoke']);

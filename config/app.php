@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -194,6 +195,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'XmlParserLib' => Orchestra\Parser\Xml\Facade::class,
+        'Helpers'      => Helpers::class
     ])->toArray(),
 
 ];

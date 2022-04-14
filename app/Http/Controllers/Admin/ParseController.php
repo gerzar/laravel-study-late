@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Parser;
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParsing;
+use App\Models\Resource;
 use Illuminate\Http\Request;
 
 class ParseController extends Controller
@@ -16,9 +18,14 @@ class ParseController extends Controller
      */
     public function __invoke(Request $request, Parser $parser)
     {
-        dd(
-            $parser->setUrl("https://www.goha.ru/rss/news")
-                    ->getData()
-        );
+
+        $urls = Resource::all();
+
+        foreach ($urls as $url) {
+            dispatch(new NewsParsing($url->site_url));
+        }
+
+        return response("Works");
+
     }
 }

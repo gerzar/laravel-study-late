@@ -31,6 +31,12 @@
                     Messages
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.resources.*')) active @endif" aria-current="page" href="{{route('admin.resources.index')}}">
+                    <span data-feather="list"></span>
+                    Resources
+                </a>
+            </li>
         </ul>
 
     </div>

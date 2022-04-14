@@ -31,7 +31,7 @@ class StoreNewsRequest extends FormRequest
             'category_id' => 'required|integer',
             'status' => 'required',
             'author' => 'integer',
-            'image' => 'string'
+            'image' => 'file|mimes:jpg,bmp,png|max:1024'
         ];
     }
 
