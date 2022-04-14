@@ -22,6 +22,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Category name</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -30,18 +31,23 @@
                 <tr>
                     <td>{{$category->id}}</td>
                     <td>{{$category->title}}</td>
+                    <td>
+                        <a class="btn btn-info" href="{{route('admin.categories.edit', ['category' => $category])}}">Edit</a>
+                        <button class="btn btn-danger" type="submit" onclick="ajax(this)" data-csrf="{{csrf_token()}}" value="{{route('admin.categories.destroy', $category)}}">Delete</button>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td>Nothing here...</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="3">Nothing here...</td>
                 </tr>
             @endforelse
 
             </tbody>
         </table>
     </div>
+    {{$category_list->links()}}
 @endsection
+
+@push('js')
+    <script src="{{asset('js/ajax.js')}}"></script>
+@endpush

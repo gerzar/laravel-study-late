@@ -17,7 +17,7 @@
         @csrf
         <br>
         <div class="form-group">
-            <input type="text" class="form-control" id="title" placeholder="Category name" name="title" input="{{@old('title')}}" required>
+            <input type="text" class="form-control" id="title" placeholder="Category name" name="title" value="{{@old('title')}}" required>
             <small id="title" class="form-text text-muted">Enter Category name</small>
         </div>
         <br>

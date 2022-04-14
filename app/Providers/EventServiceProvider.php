@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\FeedbackEvent;
+use App\Listeners\SendNotifyToTelegramListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use SocialiteProviders\GitHub\GitHubExtendSocialite;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +22,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        FeedbackEvent::class => [
+            SendNotifyToTelegramListener::class, // прописываем связь между событием feedback и слушателем sendnotify
+        ],
+
+        SocialiteWasCalled::class => [
+            // ... other providers
+            GitHubExtendSocialite::class.'@handle',
+        ],
+
     ];
 
     /**
