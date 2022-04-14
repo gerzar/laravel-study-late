@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Events\FeedbackEvent;
+use App\Http\Requests\FeedbackRequest;
+use App\Models\Feedback;
 
 class FeedbackController extends Controller
 {
-    public function create(Request $request)
+    public function new(FeedbackRequest $request, Feedback $feedback)
     {
 
-        //return response( $request->only('title', 'email', 'message', 'username'));
+        $request->validated();
 
+        $feedback->fill($request->only('title', 'email', 'message', 'username'));
 
-        return redirect()->route('about')->with('message', 'Message has been send');
+        event(new FeedbackEvent($feedback)); // вызываем событие фидбек
+
+        if ($feedback->save()){
+            return back()->with('message', 'Message has been send');
+        }
+        return back()->with('error', 'Something wrong');
 
     }
 }
