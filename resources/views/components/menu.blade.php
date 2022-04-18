@@ -15,6 +15,8 @@
                     </li>
                 @endif
                 @if(\Auth::user())
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('feed')}}">Feed</a></li>
+
                     <form method="post" class="nav-item" action="{{route('fortify.logout')}}">
                         @csrf
                         <button class="btn link-button" type="submit">Sign out</button>

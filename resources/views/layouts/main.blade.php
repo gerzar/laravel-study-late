@@ -26,6 +26,14 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
 
+
+            @if(isset($subscribe_block))
+                <hr>
+                @include('imports.subscribe', ['category' => $category])
+                <hr>
+            @endif
+
+
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
                     <x-alert category="danger" :message="$error"></x-alert>
@@ -82,6 +90,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="{{asset('js/scripts.js')}}"></script>
+
+@stack('frontend-js')
 
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 function ajax(e) {
     let url = e.value;
     let csrf = e.dataset.csrf;

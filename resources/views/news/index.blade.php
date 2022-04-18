@@ -3,7 +3,8 @@
     <!-- Post preview-->
 
 
-    @foreach($news_list as $news)
+
+    @forelse($news_list as $news)
 
 
         <div class="post-preview">
@@ -19,13 +20,21 @@
         </div>
         <!-- Divider-->
         <hr class="my-4" />
+    @empty
 
-    @endforeach
+        <div class="post-preview">
+            <p class="post-meta">
+                Subscribe on categories to see updates from your favorite categories
+            </p>
+        </div>
+
+    @endforelse
 
 
 
     <!-- Post preview-->
 
-    {{$news_list->links()}}
-
+    @if($news_list)
+        {{$news_list->links()}}
+    @endif
 @endsection

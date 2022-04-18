@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use DB;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,5 +63,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(TelegramUserInfo::class, 'user_id', 'id');
     }
+
+
+    /**
+     * user can subscribe on some categories
+     */
+
+    public function category(): belongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'subscribes', 'user_id', 'category_id');
+    }
+
 
 }

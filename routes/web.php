@@ -6,6 +6,8 @@ use App\Http\Controllers\FeedbackController;
 use \App\Http\Controllers\Fortify\FortifyController;
 use \App\Http\Controllers\Auth\SocialController;
 
+use \App\Http\Controllers\SubscribesController;
+
 
 use \App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
@@ -33,7 +35,7 @@ Route::get('/', [NewsController::class, 'index'])->name('home');
 Route::get('/about', fn()=> view(
         'static.about', [
         'title' => 'About',
-        'subtitle' => 'What do you need to know about us'
+        'subtitle' => 'What do you need to know about us',
     ]))->name('about');
 
 //Route::get('/news', [NewsController::class, 'index'])->name('news.list');
@@ -73,3 +75,14 @@ Route::group(['middleware' => 'guest'], function() {
         ->where('network', '\w+')
         ->name('auth.callback');
 });
+
+
+
+/*Subscribing routes*/
+
+Route::post('/subscribe/subscribe/{category_id}', [SubscribesController::class, 'subscribe'])->name('subscribe');
+Route::delete('/subscribe/unsubscribe/{category_id}', [SubscribesController::class, 'unsubscribe'])
+    ->middleware('auth')
+    ->name('unsubscribe');
+
+Route::get('/feed', [NewsController::class, 'feed'])->name('feed');
