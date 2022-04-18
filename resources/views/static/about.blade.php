@@ -19,7 +19,7 @@
         repellat iure omnis totam laboriosam. Atque, quos veritatis commodi, debitis voluptatibus quis ex labore nulla
         aliquid distinctio magni doloremque ipsum? Voluptatum quae, deserunt ad temporibus similique sapiente magnam
     </p>
-    <form method="post" action="{{route('feedback.create')}}">
+    <form method="post" action="{{route('feedback.new')}}">
         @csrf
 
         <div class="form-group">
@@ -54,3 +54,4 @@
     </form>
     <br>
 @endsection
+

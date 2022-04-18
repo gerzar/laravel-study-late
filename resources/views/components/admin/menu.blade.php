@@ -8,24 +8,37 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif" href="{{route('admin.news.index')}}">
+                <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif" aria-current="page" href="{{route('admin.news.index')}}">
                     <span data-feather="file-text"></span>
                     News
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('admin.categories.*')) active @endif" href="{{route('admin.categories.index')}}">
+                <a class="nav-link @if(request()->routeIs('admin.categories.*')) active @endif" aria-current="page" href="{{route('admin.categories.index')}}">
                     <span data-feather="list"></span>
                     Categories
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link @if(request()->routeIs('admin.users.*')) active @endif" aria-current="page" href="{{route('admin.users.index')}}">
                     <span data-feather="users"></span>
                     Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.feedback.*')) active @endif" aria-current="page" href="{{route('admin.feedback.index')}}">
+                    <span data-feather="mail"></span>
+                    Messages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.resources.*')) active @endif" aria-current="page" href="{{route('admin.resources.index')}}">
+                    <span data-feather="list"></span>
+                    Resources
                 </a>
             </li>
         </ul>
 
     </div>
 </nav>
+

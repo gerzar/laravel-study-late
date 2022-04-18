@@ -3,7 +3,8 @@
     <!-- Post preview-->
 
 
-    @foreach($news_list as $news)
+
+    @forelse($news_list as $news)
 
 
         <div class="post-preview">
@@ -12,19 +13,28 @@
                 <h3 class="post-subtitle">{{$news->short_description}}</h3>
             </a>
             <p class="post-meta">
-                Category: <a href="{{route('news.category.show', ['category_id' => $news->category_id])}}">{{$news->category_name}}</a>
+                Category: <a href="{{route('news.category.show', ['category_id' => $news->category->id])}}">{{$news->category->title}}</a>
                 <br>
-                Author: <b>{{$news->author}}</b>
+                Author: <b>{{$news->user->name}}</b>
             </p>
         </div>
         <!-- Divider-->
         <hr class="my-4" />
+    @empty
 
-    @endforeach
+        <div class="post-preview">
+            <p class="post-meta">
+                Subscribe on categories to see updates from your favorite categories
+            </p>
+        </div>
+
+    @endforelse
 
 
 
     <!-- Post preview-->
 
-    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+    @if($news_list)
+        {{$news_list->links()}}
+    @endif
 @endsection

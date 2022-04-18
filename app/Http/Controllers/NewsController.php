@@ -5,59 +5,90 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @param News $news
+     */
+    public function index(News $news)
     {
-        $news = app(News::class);
-        $news = $news->get_news_by([
-            ['news.status', '=', 'Published']
-        ]);
 
         return view('news.index', [
-            'news_list' => $news,
+            'news_list' => $news->with(['user', 'category'])->paginate(20),
             'title' => 'Almost TIMES',
-            'subtitle' => 'The best news aggregator in the galaxy'
+            'subtitle' => 'The best news aggregator in the galaxy',
         ]);
     }
 
-    public function single_news(int $id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @param int $id
+     * @param News $news
+     */
+    public function single_news(int $id, News $news)
     {
-        $news = app(News::class);
-        $news = $news->get_news_by_id($id);
+
+        $news = $news->with(['user', 'category'])->find($id);
 
         return view('news.single-news', [
             'single_news' => $news,
             'title' => $news->title,
-            'subtitle' => $news->short_description
+            'subtitle' => $news->short_description,
+            'subscribe_block' => true,
+            'category' => $news->category->id
         ]);
     }
 
-    public function news_by_category(int $category_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * @param int $category_id
+     */
+    public function news_by_category(int $category_id, News $news)
     {
-        $news = app(News::class);
-        $news = $news->get_news_by(
-            [
-                ['categories.id', '=', $category_id],
-                ['news.status', '=', 'Published'],
-            ]
-        );
 
-        $result = [];
-        foreach ($news as $news_item) {
-            if ($news_item->category_id === $category_id) {
-                $result[] = $news_item;
-            }
-        }
+        $news = $news->with(['user', 'category'])
+            ->where('category_id', '=', $category_id)
+            ->paginate(20);
 
         return view('news.index', [
-            'news_list' => $result,
-            'title' => $result[0]->category_name,
-            'subtitle' => 'Now you see the news this category only'
+            'news_list' => $news,
+            'title' => $news[0]->category->title,
+            'subtitle' => 'Now you see the news this category only',
+            'subscribe_block' => true,
+            'category' => $category_id
         ]);
 
+    }
+
+    public function feed(News $news)
+    {
+
+        $subscribes = ((Auth::user()) ? User::find(Auth::user()->__get('id')) : null );
+
+        $news_list = [];
+
+        if ($subscribes) {
+
+            $categories = [];
+
+            foreach ($subscribes->category as $subscribe) {
+                $categories[] = $subscribe->id;
+            }
+
+            $news_list = $news->with(['user', 'category'])
+                ->whereIn('category_id', $categories)
+                ->orderBy('id', 'desc')
+                ->paginate(20);
+        }
+
+
+        return view('news.index', [
+            'news_list' => $news_list,
+            'title' => 'Almost TIMES',
+            'subtitle' => 'Personal subscriptions',
+        ]);
     }
 
 }
